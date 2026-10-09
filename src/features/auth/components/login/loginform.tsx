@@ -16,6 +16,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { loginFormValues, loginSchema } from "../../schemas/login.schema";
 import axios, { AxiosRequestConfig } from "axios";
 import { useRouter } from "next/navigation";
+import { setToken } from "../../server/auth.action";
+import { boolean, string } from "zod";
 
 export default function LoginForm() {
 const router = useRouter()
@@ -41,11 +43,14 @@ const  onsumbit:SubmitHandler<loginFormValues> = async (values)=>{
       data : requestData
     }
     const {data} =  await axios.request(options)
-        console.log(data)
+      //  console.log(data)
     toast.success('Login Successful')
   setTimeout(() => {
     router.push('/')
    }, 2000);
+
+   await setToken(data.token , values.rememberMe)
+   
   } 
   catch (error) {
     if(axios.isAxiosError(error)){
