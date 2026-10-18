@@ -18,8 +18,13 @@ import axios, { AxiosRequestConfig } from "axios";
 import { useRouter } from "next/navigation";
 import { setToken } from "../../server/auth.action";
 import { boolean, string } from "zod";
+import { authActions } from "../../slices/auth.slice";
+import { useDispatch } from "react-redux";
 
 export default function LoginForm() {
+
+ const {setAuthState} = authActions
+const dispatch =   useDispatch ()
 const router = useRouter()
 const { register , handleSubmit , formState :{ errors }} = useForm<loginFormValues>({
   defaultValues :{
@@ -50,6 +55,15 @@ const  onsumbit:SubmitHandler<loginFormValues> = async (values)=>{
    }, 2000);
 
    await setToken(data.token , values.rememberMe)
+
+    dispatch(setAuthState({
+      isAuthenticated : true , 
+      userInfo : {
+        name : data.user.name,
+        email : data.user.email,
+        role : data.user.role
+      }
+    }))
    
   } 
   catch (error) {

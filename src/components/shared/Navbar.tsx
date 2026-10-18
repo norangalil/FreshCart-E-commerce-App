@@ -25,9 +25,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faSearch , faHeart , faShoppingCart , 
   faUser , faSignOutAlt , faUserPlus , faIdCard
 } from "@fortawesome/free-solid-svg-icons";
-
+import { useSelector } from "react-redux";
+import { AppState } from "@/store/store";
+import useLogout from "@/features/auth/hooks/useLogout";
 export default function Navbar() {
-
+ const {isAuthenticated, userInfo } = useSelector((state : AppState)=> state.authReducer)
+const {logout} = useLogout()
   return (
     <>
       <header>
@@ -93,18 +96,8 @@ export default function Navbar() {
             </button>
 
             <menu className="hidden lg:flex gap-6 *:hover:text-primary-500 *:transition-colors *:duration-200">
-              <li>
-                <Link
-                  href={`/wishlist`}
-                  className={`flex flex-col gap-2 items-center`}
-                >
-                  <IconHeart stroke={2} />
-                  <span className="text-sm">Wishlist</span>
-                </Link>
-              </li>
 
-              <li>
-                <Link
+  <Link
                   href={`/cart`}
                   className={`flex flex-col gap-2 items-center`}
                 >
@@ -117,6 +110,22 @@ export default function Navbar() {
                   </div>
                   <span className="text-sm">Cart</span>
                 </Link>
+
+
+{isAuthenticated? <>
+
+<li>
+                <Link
+                  href={`/wishlist`}
+                  className={`flex flex-col gap-2 items-center`}
+                >
+                  <IconHeart stroke={2} />
+                  <span className="text-sm">Wishlist</span>
+                </Link>
+              </li>
+
+              <li>
+              
               </li>
 
               <li>
@@ -129,10 +138,15 @@ export default function Navbar() {
                 </Link>
               </li>
 
-              <li className="flex flex-col gap-2 cursor-pointer">
+              <li className="flex flex-col gap-2 cursor-pointer"
+               onClick={logout}
+>
                 <IconLogout stroke={2} />
                 <span className="text-sm">Logout</span>
               </li>
+</> : <>
+
+
 
               <li>
                 <Link
@@ -153,6 +167,10 @@ export default function Navbar() {
                   <span className="text-sm">Login</span>
                 </Link>
               </li>
+</>}
+
+              
+
             </menu>
           </nav>
         </div>

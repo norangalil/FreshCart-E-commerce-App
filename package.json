@@ -26,6 +26,7 @@
     "react-hook-form": "^7.89.0",
     "react-redux": "^9.3.0",
     "react-toastify": "^11.1.0",
+    "swiper": "^14.3.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
