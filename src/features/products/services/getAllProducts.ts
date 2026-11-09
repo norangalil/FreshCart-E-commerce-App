@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import React from 'react'
 import { ProductApiResponse } from '../types/getAllProductsTypes'
 
 export default async function getAllProducts():Promise<ProductApiResponse> {

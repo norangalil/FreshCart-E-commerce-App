@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -9,8 +10,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Product } from '../types/getAllProductsTypes';
+import getSpecificProduct from '../services/getSpecificProduct';
+import Link from 'next/link';
+import { AddProductToCart } from '@/features/cart/server/cart.actions';
+import { toast } from "react-toastify";
+import { CartActions } from "@/features/cart/slices/cart.slice";
+import { useDispatch } from "react-redux";
 
 export default function ProductCard({productInfo}:{productInfo:Product}) {
+
+  const {updateCartInfo}= CartActions
+ const dispatch =  useDispatch()
 
     const{_id , category , imageCover , title  , priceAfterDiscount , ratingsAverage , price} = productInfo
     const discountPercentage = priceAfterDiscount
@@ -21,10 +31,26 @@ export default function ProductCard({productInfo}:{productInfo:Product}) {
               )
             : 0;
 
+
+        async function HandleAddToCart() {
+     const respone = await AddProductToCart(_id)
+     if(respone.status=== 'fail'){
+toast.error('Please Login To Add product to The Cart')
+     }
+     
+     else{
+           toast.success('Product Added  To The Cart ')
+       dispatch(updateCartInfo(respone))
+console.log(respone)
+     }
+
+
+         }  
   return (
 
     <>
      <div
+   
               key={_id}
               className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white p-3 shadow-sm"
             >
@@ -56,9 +82,9 @@ export default function ProductCard({productInfo}:{productInfo:Product}) {
                     <FontAwesomeIcon icon={faArrowsRotate} />
                   </button>
 
-                  <button className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-600 shadow-md">
+                  <Link href={`/products/${_id}`} className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-600 shadow-md">
                     <FontAwesomeIcon icon={faEye} />
-                  </button>
+                  </Link>
 
                 </div>
 
@@ -116,7 +142,10 @@ export default function ProductCard({productInfo}:{productInfo:Product}) {
                   </div>
 
                   {/* Add Button */}
-                  <button className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700">
+                  <button 
+                  onClick={HandleAddToCart}
+                 
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-600 text-white hover:bg-green-700">
                     <FontAwesomeIcon icon={faPlus} />
                   </button>
 

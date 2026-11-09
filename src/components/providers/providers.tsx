@@ -8,6 +8,7 @@ type providerProps ={
     PreloadedState: PreloadedState
 }
  export default function Providers({children , PreloadedState}: providerProps){
+    
     const store = CreateStore(PreloadedState)
     return <>
     <Provider store={store}>

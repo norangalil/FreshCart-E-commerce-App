@@ -7,6 +7,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Providers from "@/components/providers/providers";
 import { verifyToken } from "@/features/auth/server/auth.action";
+import { getCartItem } from "@/features/cart/server/cart.actions";
+import { CartInitialValueTypes } from "@/features/cart/slices/cart.slice";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,7 +27,27 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
 
 const authData =  await verifyToken()
+let CartValues : CartInitialValueTypes ={
+status: "",
+    message: "",
+    numOfCartItems: 0,
+    cartId: null,
+    data: {
+        products: [],
+        totalCartPrice: 0
+    }
 
+
+}
+if(authData.isAuthenticated === true ){
+
+ const cartResponse =   await getCartItem()
+ if(cartResponse.status==='success'){
+ CartValues = cartResponse 
+ }
+
+
+}
   return (
     <html
       lang="en"
@@ -33,7 +55,7 @@ const authData =  await verifyToken()
     >
       <body className="min-h-full flex flex-col">
        
-<Providers PreloadedState={{authReducer : authData}}>
+<Providers PreloadedState={{authReducer : authData , cartReducer:CartValues}}>
    <Navbar/>
         {children}
         <ToastContainer />

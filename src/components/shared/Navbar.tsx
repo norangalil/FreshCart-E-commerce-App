@@ -25,11 +25,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faSearch , faHeart , faShoppingCart , 
   faUser , faSignOutAlt , faUserPlus , faIdCard
 } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { AppState } from "@/store/store";
 import useLogout from "@/features/auth/hooks/useLogout";
+import { CartActions } from "@/features/cart/slices/cart.slice";
 export default function Navbar() {
- const {isAuthenticated, userInfo } = useSelector((state : AppState)=> state.authReducer)
+ const {isAuthenticated } = useSelector((state : AppState)=> state.authReducer)
+
+const { numOfCartItems} = useSelector((state : AppState )=> state.cartReducer)
+
 const {logout} = useLogout()
   return (
     <>
@@ -105,7 +109,8 @@ const {logout} = useLogout()
                     <IconShoppingCart stroke={2} />
 
                     <span className="absolute top-0 -right-0.5 -translate-y-1/2 size-4.5 rounded-full bg-primary-600 text-white text-xs flex justify-center items-center">
-                      0
+                     {numOfCartItems}
+                      
                     </span>
                   </div>
                   <span className="text-sm">Cart</span>
