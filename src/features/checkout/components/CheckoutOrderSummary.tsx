@@ -1,48 +1,23 @@
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faLock,
   faTruck,
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
+import { CartApiResponse, ErrorCartResponse } from "@/features/cart/types/cart.types";
 
-const products = [
-  {
-    id: 1,
-    title: "Woman Shawl",
-    image: "/products/shawl.jpg",
-    quantity: 2,
-    price: 149,
-    total: 298,
-  },
-  {
-    id: 2,
-    title: "Woman Standard Fit Knitted Cardigan",
-    image: "/products/cardigan.jpg",
-    quantity: 1,
-    price: 499,
-    total: 499,
-  },
-  {
-    id: 3,
-    title: "Woman Shawl",
-    image: "/products/shawl-2.jpg",
-    quantity: 2,
-    price: 349,
-    total: 698,
-  },
-  {
-    id: 4,
-    title: "Woman Bordeaux Long Sleeve Blouse",
-    image: "/products/blouse.jpg",
-    quantity: 1,
-    price: 499,
-    total: 499,
-  },
-];
 
-export default function CheckoutOrderSummary() {
+type Props = {
+  cartInfo: CartApiResponse | ErrorCartResponse | null
+}
+export default  function CheckoutOrderSummary({cartInfo }: Props) 
+ {
+ if (!cartInfo) return <p> Loading...</p>
+
+if (cartInfo.status === 'fail') {
+  return <p>{cartInfo.message}</p>
+}
+ 
   return (
     <section className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
 
@@ -63,7 +38,7 @@ export default function CheckoutOrderSummary() {
         </div>
 
         <p className="mt-1 text-[10px] text-green-100">
-          4 items
+           {cartInfo.data.products.length} items
         </p>
 
       </div>
@@ -74,10 +49,10 @@ export default function CheckoutOrderSummary() {
         {/* Products List */}
         <div className="max-h-52 space-y-2 overflow-y-auto pr-1">
 
-          {products.map((product) => (
+{cartInfo.data.products.map ((item)=>
 
-            <div
-              key={product.id}
+<div
+              key={item.product._id}
               className="flex items-center gap-2 rounded-lg bg-gray-50 p-2"
             >
 
@@ -85,8 +60,8 @@ export default function CheckoutOrderSummary() {
               <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white">
 
                 <img
-                  src={product.image}
-                  alt={product.title}
+                  src= {item.product.imageCover}
+                  alt={item.product.title}
                   className="h-full w-full object-contain p-1"
                 />
 
@@ -96,24 +71,24 @@ export default function CheckoutOrderSummary() {
               <div className="min-w-0 flex-1">
 
                 <h3 className="truncate text-[10px] font-semibold text-gray-700">
-                  {product.title}
+                 {item.product.title}
                 </h3>
 
                 <p className="mt-1 text-[9px] text-gray-400">
-                  {product.quantity} × {product.price} EGP
+                  {item.count} × {item.price} EGP
                 </p>
 
               </div>
 
               {/* Product Total */}
               <span className="shrink-0 text-[10px] font-bold text-gray-700">
-                {product.total}
+             {item.count * item.price} EGP
               </span>
 
             </div>
 
-          ))}
-
+)}
+        
         </div>
 
         {/* Divider */}
@@ -129,7 +104,7 @@ export default function CheckoutOrderSummary() {
             </span>
 
             <span className="font-medium text-gray-700">
-              1,994 EGP
+             {cartInfo.data.totalCartPrice} EGP
             </span>
 
           </div>
@@ -165,7 +140,7 @@ export default function CheckoutOrderSummary() {
           <div className="flex items-baseline gap-1">
 
             <span className="text-lg font-bold text-green-600">
-              1,994
+             {cartInfo.data.totalCartPrice}
             </span>
 
             <span className="text-[10px] text-gray-400">
@@ -178,7 +153,7 @@ export default function CheckoutOrderSummary() {
 
         {/* Place Order */}
         <button
-          type="button"
+          type="submit"
           className="mt-4 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-linear-to-r from-green-600 to-green-700 text-xs font-semibold text-white shadow-md shadow-green-600/20 transition-all hover:shadow-lg"
         >
 

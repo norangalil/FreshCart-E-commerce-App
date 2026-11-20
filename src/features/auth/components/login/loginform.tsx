@@ -40,7 +40,7 @@ const { register , handleSubmit , formState :{ errors }} = useForm<loginFormValu
 })
 const  onsumbit:SubmitHandler<loginFormValues> = async (values)=>{
   const {rememberMe , ...requestData} = values
-  console.log(values)
+  // console.log(values)
   try {
     const options: AxiosRequestConfig = {
       url :'https://ecommerce.routemisr.com/api/v1/auth/signin',

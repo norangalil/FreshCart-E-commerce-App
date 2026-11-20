@@ -23,18 +23,32 @@ import {
 } from "@tabler/icons-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faSearch , faHeart , faShoppingCart , 
-  faUser , faSignOutAlt , faUserPlus , faIdCard
+  faUser , faSignOutAlt , faUserPlus , faIdCard , faTruck
 } from "@fortawesome/free-solid-svg-icons";
 import {  useSelector } from "react-redux";
 import { AppState } from "@/store/store";
 import useLogout from "@/features/auth/hooks/useLogout";
 import { CartActions } from "@/features/cart/slices/cart.slice";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 export default function Navbar() {
- const {isAuthenticated } = useSelector((state : AppState)=> state.authReducer)
 
+ const [isMenuOpen , setIsMenuOpen] = useState( false)
+ function toggleMenu (){
+  setIsMenuOpen(!isMenuOpen)
+ }
+ const {isAuthenticated } = useSelector((state : AppState)=> state.authReducer)
 const { numOfCartItems} = useSelector((state : AppState )=> state.cartReducer)
 
 const {logout} = useLogout()
+
+const router = useRouter()
+const [searchValue , setSearchvalue] = useState('')
+function handleSearch (e: React.SubmitEvent<HTMLFormElement>){
+e.preventDefault()
+if(!searchValue.trim()) return
+router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
+}
   return (
     <>
       <header>
@@ -54,7 +68,7 @@ const {logout} = useLogout()
 
             <ul>
               <li>
-                <Link href={`/track-order`}>Track Order</Link>
+                <Link href={`/allorders`}>Track Order</Link>
               </li>
               <li>
             
@@ -63,19 +77,19 @@ const {logout} = useLogout()
               <li>
                 <Link href={`/contact`}>Contact</Link>
               </li>
-              <li>
+              {/* <li>
                 <select>
                   <option>EGP</option>
                   <option>SAR</option>
                   <option>AED</option>
                 </select>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <select>
                   <option>العربية</option>
                   <option>English</option>
                 </select>
-              </li>
+              </li> */}
             </ul>
           </div>
           {/* Main Navigation */}
@@ -85,17 +99,25 @@ const {logout} = useLogout()
                 <Image src={logo} alt="" />
               </Link>
             </h1>
-
-            <search className="relative hidden lg:flex">
+<form onSubmit={handleSearch} >
+             <search className="relative hidden lg:flex">
               <input
-                type="text"
+                type='search'
                 className="form-control w-96"
                 placeholder="Search for products ..."
+                value={searchValue}
+                onChange={(e)=> setSearchvalue(e.target.value)}
               />
-              <IconSearch stroke={2} />
+              <IconSearch stroke={2} 
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-green-700 "
+/>
             </search>
+</form>
+ 
 
-            <button className="lg:hidden btn size-10 flex justify-center items-center bg-primary-600 text-white">
+            <button 
+             onClick={toggleMenu}
+            className="lg:hidden btn size-10 flex justify-center items-center bg-primary-600 text-white">
               <IconMenu2 stroke={2} />
             </button>
 
@@ -135,7 +157,7 @@ const {logout} = useLogout()
 
               <li>
                 <Link
-                  href={`/account`}
+                  href={`/profile/address`}
                   className={`flex flex-col gap-2 items-center`}
                 >
                   <IconUser stroke={2} />
@@ -192,7 +214,7 @@ const {logout} = useLogout()
               <ul className="hidden divide-y-2 divide-gray-300/20 shadow-xl group-hover/categories:flex flex-col absolute z-50 top-10 left-0 rounded-md bg-white w-60 *:bg-white *:hover:bg-gray-100 *:transition-colors *:duration-200">
                 <li>
                   <Link
-                    href={`/category/6439d5b90049ad0b52b90048`}
+                    href={`/categories/6439d5b90049ad0b52b90048`}
                     className="p-3 flex gap-3 items-center"
                   >
                     <IconUser stroke={2} />
@@ -203,7 +225,7 @@ const {logout} = useLogout()
 
                 <li>
                   <Link
-                    href={`/category/6439d58a0049ad0b52b9003f`}
+                    href={`/categories/6439d58a0049ad0b52b9003f`}
                     className="p-3 flex gap-3 items-center"
                   >
                     <IconShirtSport stroke={2} />
@@ -214,7 +236,7 @@ const {logout} = useLogout()
 
                 <li>
                   <Link
-                    href={`/category/6439d40367d9aa4ca97064cc`}
+                    href={`/categories/6439d40367d9aa4ca97064cc`}
                     className="p-3 flex gap-3 items-center"
                   >
                     <IconBabyCarriage stroke={2} />
@@ -225,7 +247,7 @@ const {logout} = useLogout()
 
                 <li>
                   <Link
-                    href={`/category/6439d30b67d9aa4ca97064b1`}
+                    href={`/categories/6439d30b67d9aa4ca97064b1`}
                     className="p-3 flex gap-3 items-center"
                   >
                     <IconReportMedical stroke={2} />
@@ -236,7 +258,7 @@ const {logout} = useLogout()
 
                 <li>
                   <Link
-                    href={`/category/6439d2d167d9aa4ca970649f`}
+                    href={`/categories/6439d2d167d9aa4ca970649f`}
                     className="p-3 flex gap-3 items-center"
                   >
                     <IconProgressBolt stroke={2} />
@@ -267,30 +289,16 @@ const {logout} = useLogout()
                   Home
                 </Link>
               </li>
+          
               <li>
                 <Link
-                  href={`/recently-added`}
-                  className={`hover:text-primary-600 transition-colors duration-200 font-medium`}
-                >
-                  Recently Added
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/featured`}
+                  href={`/#featured-products`}
                   className={`hover:text-primary-600 transition-colors duration-200 font-medium`}
                 >
                   Featured Products
                 </Link>
               </li>
-              <li>
-                <Link
-                  href={`/offers`}
-                  className={`hover:text-primary-600 transition-colors duration-200 font-medium`}
-                >
-                  Offers
-                </Link>
-              </li>
+          
               <li>
                 <Link
                   href={`/brands`}
@@ -303,21 +311,28 @@ const {logout} = useLogout()
           </div>
         </nav>
 
-        <>
+
+{isMenuOpen && 
+ <div>
 
         {/* Canvas in mobile */}
             <div
-              className=" hidden fixed inset-0 bg-black/50 z-40"
+            onClick={toggleMenu}
+
+              className=" lg:hidden fixed inset-0 bg-black/50 z-40"
             ></div>
 
             <div
-              className={` hidden offcanvas p-5 fixed w-80 top-0 bottom-0 left-0 bg-white shadow-xl z-50 overflow-y-auto  flex-col`}
+                  onClick={toggleMenu}
+
+              className={` lg:hidden offcanvas p-5 fixed w-80 top-0 bottom-0 left-0 bg-white shadow-xl z-50 overflow-y-auto  flex-col`}
             >
               <div className="flex justify-between items-center border-b border-gray-200 pb-4">
                 <div className="logo">
                   <Image src={logo} alt="FreshCart" className="h-10" />
                 </div>
                 <button
+                onClick={toggleMenu}
                   className="btn p-2 rounded-full hover:bg-gray-100"
                   aria-label="Close menu"
                 >
@@ -338,17 +353,14 @@ const {logout} = useLogout()
               <h2 className="text-lg font-semibold mt-4 mb-2 text-gray-800">
                 Main Menu
               </h2>
-              <ul className="space-y-3 border-b border-gray-200 pb-4">
-                <li>
-                  <Link
-                    className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
-                    href={`/wishlist`}
-                  >
-                    <FontAwesomeIcon icon={faHeart} className="text-lg" />
-                    <span className="font-medium">Wishlist</span>
-                  </Link>
-                </li>
-                <li>
+{isAuthenticated ? <>
+
+   <ul className="space-y-3 border-b border-gray-200 pb-4">
+
+
+
+
+                 <li>
                   <Link
                     className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
                     href={`/cart`}
@@ -359,7 +371,7 @@ const {logout} = useLogout()
                         className="text-lg"
                       />
                       <span className="absolute -top-1 -right-1 size-4 rounded-full bg-primary-600 text-white text-xs flex justify-center items-center">
-                        {0}
+                         {numOfCartItems}
                       </span>
                     </div>
                     <span className="font-medium">Cart</span>
@@ -368,18 +380,34 @@ const {logout} = useLogout()
                 <li>
                   <Link
                     className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
-                    href={`/account`}
+                    href={`/wishlist`}
+                  >
+                    <FontAwesomeIcon icon={faHeart} className="text-lg" />
+                    <span className="font-medium">Wishlist</span>
+                  </Link>
+                </li>
+               
+                <li>
+                  <Link
+                    className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
+                    href={`/profile/address`}
                   >
                     <FontAwesomeIcon icon={faUser} className="text-lg" />
                     <span className="font-medium">Account</span>
                   </Link>
                 </li>
-              </ul>
-              <h2 className="text-lg font-semibold mt-4 mb-2 text-gray-800">
-                Account
-              </h2>
-              <ul className="space-y-3">
-                  <li>
+
+   <li>
+                  <Link
+                    className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
+                    href={`/allorders`}
+                  >
+                    <FontAwesomeIcon icon={faTruck} className="text-lg" />
+                    <span className="font-medium">My Orders</span>
+                  </Link>
+                </li>
+
+                    <li onClick={logout}>
                     <button
                       className="flex w-full items-center gap-3 p-2 rounded-lg hover:bg-gray-100 text-left"
                     >
@@ -391,7 +419,28 @@ const {logout} = useLogout()
                       <span className="font-medium">Logout</span>
                     </button>
                   </li>
-                
+              </ul>
+
+
+</> : <ul className="space-y-3">
+              
+                  <li>
+                  <Link
+                    className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
+                    href={`/cart`}
+                  >
+                    <div className="relative">
+                      <FontAwesomeIcon
+                        icon={faShoppingCart}
+                        className="text-lg"
+                      />
+                      <span className="absolute -top-1 -right-1 size-4 rounded-full bg-primary-600 text-white text-xs flex justify-center items-center">
+                        {numOfCartItems}
+                      </span>
+                    </div>
+                    <span className="font-medium">Cart</span>
+                  </Link>
+                </li>
                 
                     <li>
                       <Link
@@ -407,6 +456,7 @@ const {logout} = useLogout()
                     </li>
                     <li>
                       <Link
+                      
                         href={`/login`}
                         className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
                       >
@@ -416,9 +466,16 @@ const {logout} = useLogout()
                     </li>
                  
               
-              </ul>
+              </ul>}
+
+          
+              
             </div>
-          </> 
+          </div> 
+
+}
+
+       
       </header>
     </>
   );

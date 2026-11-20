@@ -1,8 +1,6 @@
 import SignupHero from "@/features/auth/components/signup/Signuphero";
 import Signupform from "@/features/auth/components/signup/Signupform";
 
-import { IconUserPlus } from "@tabler/icons-react";
-import Link from "next/link";
 export default function SignupForm() {
 
   return (

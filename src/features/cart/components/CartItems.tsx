@@ -6,10 +6,10 @@ import {
   faPlus,
   faMinus,
   faTrash,
-  faCartShopping
+  
 } from "@fortawesome/free-solid-svg-icons";
 import { CartProduct } from "../types/cart.types";
-import { DeleteItemFromCart } from "../server/cart.actions";
+import { DeleteItemFromCart, UpdateCartCount } from "../server/cart.actions";
 import { toast } from "react-toastify";
 import { CartActions } from "../slices/cart.slice";
 import { useDispatch } from "react-redux";
@@ -48,6 +48,13 @@ async function HandleDeleteItemFromCart() {
 
 }
  
+
+ async function HandleUpdateCountcart (newCount:number){
+
+ const Response =  await UpdateCartCount(id , newCount )
+ dispatch(updateCartInfo(Response))
+ console.log(Response)
+}
   return (
 
     <>
@@ -122,6 +129,7 @@ async function HandleDeleteItemFromCart() {
           <div className="mt-2 flex h-8 w-fit items-center gap-1 rounded-lg border border-gray-100 bg-gray-50 p-1">
 
             <button
+            onClick= {()=> HandleUpdateCountcart (count-1)}
               type="button"
               className="flex h-6 w-6 items-center justify-center rounded-md text-gray-400"
             >
@@ -133,6 +141,7 @@ async function HandleDeleteItemFromCart() {
             </span>
 
             <button
+            onClick= {()=> HandleUpdateCountcart (count+1)}
               type="button"
               className="flex h-6 w-6 items-center justify-center rounded-md bg-green-600 text-white shadow-sm"
             >

@@ -1,3 +1,4 @@
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ProductGallery from "../components/ProductImageDetails";
 import {
@@ -15,11 +16,14 @@ import {
 
 import { IconMinus, IconPlus } from "@tabler/icons-react";
 import getSpecificProduct from "../services/getSpecificProduct";
+import AddToCartButton from "../components/AddToCartButton";
+import AddToWishListButton from "../components/AddToWishListButton";
 
 export default  async function ProductDetailsPage({productId}: {productId:string}) {
     console.log("Product Request:", productId);
   const productDetailsResponse = await getSpecificProduct(productId)
   const product = productDetailsResponse.data;
+
 
   return (
     <main className="min-h-screen bg-white px-4 py-6 sm:px-8 lg:px-12">
@@ -61,47 +65,10 @@ export default  async function ProductDetailsPage({productId}: {productId:string
 
           <div>
 
-            {/* <Image
-              src="/products/shawl-1.jpg"
-              alt="Woman Shawl"
-              fill
-              priority
-              className="object-contain"
-              sizes="(max-width: 1024px) 100vw, 260px"
-            /> */}
 <ProductGallery images={product.images} />
 
           </div>
 
-          {/* Thumbnails */}
-
-          {/* <div className="mt-2 grid grid-cols-4 gap-2">
-
-            {[
-              "/products/shawl-2.jpg",
-              "/products/shawl-3.jpg",
-              "/products/shawl-4.jpg",
-              "/products/shawl-1.jpg",
-            ].map((image, index) => (
-
-              <div
-                key={index}
-                className="relative aspect-square overflow-hidden bg-gray-100"
-              >
-
-                <Image
-                  src={image}
-                  alt={`Woman Shawl ${index + 1}`}
-                  fill
-                  sizes="70px"
-                  className="object-contain"
-                />
-
-              </div>
-
-            ))}
-
-          </div> */}
 
         </section>
 
@@ -208,7 +175,7 @@ export default  async function ProductDetailsPage({productId}: {productId:string
                 </button>
 
                 <span className="min-w-8 text-center text-sm text-gray-900">
-                  1
+                 1
                 </span>
 
                 <button className="px-3 text-gray-500">
@@ -243,15 +210,11 @@ export default  async function ProductDetailsPage({productId}: {productId:string
 
           <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
 
-            <button className="flex h-10 items-center justify-center gap-2 rounded-lg bg-green-600 text-sm font-medium text-white shadow-md">
+          
+  <AddToCartButton productId={productId}/>
 
-              <FontAwesomeIcon icon={faCartShopping} />
-
-              Add to Cart
-
-            </button>
-
-            <button className="flex h-10 items-center justify-center gap-2 rounded-lg bg-gray-900 text-sm font-medium text-white">
+   <button 
+      className="flex h-10 items-center justify-center gap-2 rounded-lg bg-gray-900 text-sm font-medium text-white">
 
               <FontAwesomeIcon icon={faBolt} />
 
@@ -262,24 +225,7 @@ export default  async function ProductDetailsPage({productId}: {productId:string
           </div>
 
           {/* Wishlist & Share */}
-
-          <div className="mt-4 flex gap-2">
-
-            <button className="flex h-10 flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 text-sm text-gray-600">
-
-              <FontAwesomeIcon icon={faHeart} />
-
-              Add to Wishlist
-
-            </button>
-
-            <button className="flex h-10 w-12 items-center justify-center rounded-lg border border-gray-200 text-gray-600">
-
-              <FontAwesomeIcon icon={faShareNodes} />
-
-            </button>
-
-          </div>
+          <AddToWishListButton productId={productId}/>
 
           {/* Services */}
 

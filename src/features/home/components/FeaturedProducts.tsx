@@ -6,7 +6,7 @@ export default async function FeaturedProducts() {
   const productResponse = await getAllProducts();
 
   return (
-    <section className="mx-auto w-full max-w-300 px-6 py-10">
+    <section id="featured-products" className="mx-auto w-full max-w-300 px-6 py-10">
 
       {/* Section Header */}
       <div className="mb-8 flex items-center justify-between">

@@ -1,10 +1,14 @@
-export interface Category {
+export interface CategoryType {
   _id: string;
   name: string;
   slug: string;
   image: string;
   createdAt: string; 
-  updatedAt: string; 
+  updatedAt: string;
+  __v?: number 
+}
+export interface CategoryResponse {
+  data: CategoryType;
 }
 
 export interface Metadata {
@@ -16,5 +20,6 @@ export interface Metadata {
 export interface ApiResponseCategory {
   results: number;
   metadata: Metadata;
-  data: Category[];
+  data: CategoryType[];
 }
+

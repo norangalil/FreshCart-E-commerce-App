@@ -115,7 +115,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/orders"
+                    href="/allorders"
                     className="text-gray-600 hover:text-primary-600 cursor-pointer"
                   >
                     My Orders

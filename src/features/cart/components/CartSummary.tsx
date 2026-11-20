@@ -1,5 +1,6 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import {
   faBagShopping,
   faTruck,
@@ -133,16 +134,19 @@ export default function OrderSummary({CartInfo} : {CartInfo: CartInitialValueTyp
         </button>
 
         {/* Checkout */}
-        <button
+        <Link href='/checkout'  className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-linear-to-r from-green-600 to-green-700 text-xs font-semibold text-white shadow-md shadow-green-600/20 transition-all hover:shadow-lg"
+>
+          <button
           type="button"
-          className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-linear-to-r from-green-600 to-green-700 text-xs font-semibold text-white shadow-md shadow-green-600/20 transition-all hover:shadow-lg"
         >
-
           <FontAwesomeIcon icon={faLock} />
 
           Secure Checkout
 
         </button>
+        
+        </Link>
+      
 
         {/* Payment & Delivery */}
         <div className="mt-4 flex items-center justify-center gap-3 text-[9px] text-gray-500">

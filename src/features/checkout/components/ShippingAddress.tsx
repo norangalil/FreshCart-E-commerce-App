@@ -9,8 +9,15 @@ import {
   faCity,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { ShippingAddressvalues } from "../schema/checkout.schema";
 
-export default function ShippingAddress() {
+interface ShippingAddressForm {
+  register : UseFormRegister <ShippingAddressvalues>,
+  errors : FieldErrors <ShippingAddressvalues>
+}
+
+export default function ShippingAddress( {register , errors}: ShippingAddressForm) {
   return (
     <section className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
 
@@ -186,10 +193,15 @@ export default function ShippingAddress() {
                 type="text"
                 placeholder="e.g. Cairo, Alexandria, Giza"
                 className="w-full bg-transparent text-xs text-gray-700 outline-none placeholder:text-gray-400"
+                {... register('city')}
               />
 
-            </div>
+             
 
+            </div>
+ {errors.city && <>
+              <p className="text-red-500 text-sm">{errors.city.message}</p>
+              </>}
           </div>
 
           {/* Street Address */}
@@ -214,10 +226,15 @@ export default function ShippingAddress() {
                 rows={2}
                 placeholder="Street name, building number, floor, apartment..."
                 className="w-full resize-none bg-transparent text-xs text-gray-700 outline-none placeholder:text-gray-400"
+                {...register ('details')}
               />
+              
+
 
             </div>
-
+ {errors.details && <>
+              <p className="text-red-500 text-sm">{errors.details.message}</p>
+              </>}
           </div>
 
           {/* Phone Number */}
@@ -242,14 +259,19 @@ export default function ShippingAddress() {
                 type="tel"
                 placeholder="01xxxxxxxxx"
                 className="w-full bg-transparent text-xs text-gray-700 outline-none placeholder:text-gray-400"
+                {... register ('phone')}
               />
 
               <span className="hidden shrink-0 text-[9px] text-gray-400 sm:block">
                 Egyptian numbers only
               </span>
 
-            </div>
+ 
 
+            </div>
+{errors.phone && <>
+              <p className="text-red-500 text-sm">{errors.phone.message}</p>
+              </>}
           </div>
 
         </div>

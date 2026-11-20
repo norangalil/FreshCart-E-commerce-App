@@ -3,7 +3,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
 import { CartApiResponse, ErrorCartResponse } from "../types/cart.types";
-import { readRouteCacheEntry } from "next/dist/client/components/segment-cache/cache";
 
  export async function getCartItem(): Promise<CartApiResponse | ErrorCartResponse>
   {
@@ -25,11 +24,8 @@ try {
  headers : {
 token : token?.value
  }
-
     }
-   
     const { data } = await axios.request(options)
-    console.log(data)
     return data;
 } catch (error) {
     return {
@@ -61,6 +57,7 @@ token : token.value
 data : {
 productId : id
 }
+
     }
     const {data} = await axios.request(options)
     return data
@@ -102,4 +99,24 @@ headers : {
 }
 const {data } = await axios.request(options)
 return data
+}
+
+ export async function UpdateCartCount  (ProductId:string , count:number ){
+
+ const cookieStore =  await cookies()
+const token =  cookieStore.get('token')
+const options:AxiosRequestConfig  = {
+  url : `https://ecommerce.routemisr.com/api/v2/cart/${ProductId}`,
+  method : 'PUT',
+  headers :  {
+    token : token?.value
+  },
+  data : {
+    count
+  }
+  
+}
+const {data} =  await axios.request(options)
+return data
+
 }

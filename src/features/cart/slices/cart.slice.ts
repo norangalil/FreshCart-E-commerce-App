@@ -37,6 +37,11 @@ state.message = action.payload.message
 state.numOfCartItems = action.payload.numOfCartItems
 state.cartId = action.payload.cartId
 state.data = action.payload.data
+    },
+
+ClearCart: (state )=>{
+state.numOfCartItems = 0
+state.cartId = null
     }
 }
 

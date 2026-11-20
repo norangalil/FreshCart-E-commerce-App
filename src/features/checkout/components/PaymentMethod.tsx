@@ -8,7 +8,12 @@ import {
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function PaymentMethod() {
+interface paymentMethodProps {
+Selectedmethod :'cash' | 'visa' 
+changePaymentMethod : (method : 'cash' | 'visa' )=>void
+}
+
+export default function PaymentMethod({Selectedmethod , changePaymentMethod} : paymentMethodProps) {
   return (
     <section className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
 
@@ -38,7 +43,11 @@ export default function PaymentMethod() {
       <div className="space-y-2 p-4">
 
         {/* Cash on Delivery */}
-        <div className="flex items-center gap-3 rounded-lg border border-green-500 bg-green-50/50 p-3">
+        <button className="w-full text-left"
+        onClick={()=> {changePaymentMethod('cash')}}
+        >
+          
+          <div className={`flex items-center gap-3 rounded-lg border ${Selectedmethod === 'cash' ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-white'} p-3`}>
 
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-green-500 text-white shadow-sm">
 
@@ -61,15 +70,27 @@ export default function PaymentMethod() {
 
           </div>
 
-          <FontAwesomeIcon
-            icon={faCheckCircle}
-            className="shrink-0 text-green-600"
-          />
+         {Selectedmethod === 'cash' && (
+  <FontAwesomeIcon
+    icon={faCheckCircle}
+    className="shrink-0 text-green-600"
+  />
+)}
 
         </div>
 
+
+
+
+        </button>
+        
+
         {/* Pay Online */}
-        <div className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3">
+
+        <button 
+        className="w-full text-left"
+        onClick={()=> {changePaymentMethod('visa')}}>
+ <div className={`flex items-center gap-3 rounded-lg border ${Selectedmethod === 'visa' ? 'border-green-500 bg-green-50' : 'border-gray-200 bg-white'} p-3`}>
 
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-400">
 
@@ -109,9 +130,17 @@ export default function PaymentMethod() {
 
           </div>
 
-          <div className="h-4 w-4 shrink-0 rounded-full border-2 border-gray-200" />
+         {Selectedmethod === 'visa' && (
+  <FontAwesomeIcon
+    icon={faCheckCircle}
+    className="shrink-0 text-green-600"
+  />
+)}
 
         </div>
+
+        </button>
+       
 
         {/* Security Banner */}
         <div className="mt-2 flex items-center gap-2 rounded-lg bg-linear-to-r from-green-50 to-gray-50 p-3">

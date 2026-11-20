@@ -16,13 +16,27 @@ import { AddProductToCart } from '@/features/cart/server/cart.actions';
 import { toast } from "react-toastify";
 import { CartActions } from "@/features/cart/slices/cart.slice";
 import { useDispatch } from "react-redux";
+import { AddItemToWishList } from "@/features/wishlist/services/wishlist.service";
 
 export default function ProductCard({productInfo}:{productInfo:Product}) {
 
-  const {updateCartInfo}= CartActions
+const {updateCartInfo}= CartActions
  const dispatch =  useDispatch()
 
-    const{_id , category , imageCover , title  , priceAfterDiscount , ratingsAverage , price} = productInfo
+const{_id , category , imageCover , title  , priceAfterDiscount , ratingsAverage , price , id} = productInfo
+
+  async function HandleAddItemToWishList(){
+   const Response = await AddItemToWishList(id)
+   console.log(Response)
+   if(Response.status==='fail'){
+toast.error(Response.message)
+return;
+   }
+if(Response.status==='success'){
+     toast.success('Product Added Successfuly To WishList')
+    //  return;
+}
+}
     const discountPercentage = priceAfterDiscount
             ? Math.round(
                 ((price - priceAfterDiscount) /
@@ -43,8 +57,6 @@ toast.error('Please Login To Add product to The Cart')
        dispatch(updateCartInfo(respone))
 console.log(respone)
      }
-
-
          }  
   return (
 
@@ -74,7 +86,9 @@ console.log(respone)
                 {/* Actions */}
                 <div className="absolute right-1 top-1 flex flex-col gap-2">
 
-                  <button className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-600 shadow-md hover:text-red-500">
+                  <button
+                  onClick={HandleAddItemToWishList}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-600 shadow-md hover:text-red-500">
                     <FontAwesomeIcon icon={faHeart} />
                   </button>
 

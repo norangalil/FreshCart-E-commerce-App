@@ -24,7 +24,6 @@ const dispatch  =  useDispatch()
 
 async function HandleClearCart() {
 
-  // 1. Confirmation Alert
   const result = await Swal.fire({
     title: "Are you sure?",
     text: "Do you want to remove all items from your cart?",
@@ -99,7 +98,6 @@ if ( cartResponse.numOfCartItems === 0) {
       {/* Empty Cart */}
       <div className="flex min-h-100 flex-col items-center justify-center gap-4">
 
-        {/* Icon */}
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
 
           <FontAwesomeIcon
@@ -109,17 +107,14 @@ if ( cartResponse.numOfCartItems === 0) {
 
         </div>
 
-        {/* Title */}
         <h2 className="text-2xl font-semibold text-gray-800">
           Your Cart is Empty
         </h2>
 
-        {/* Description */}
         <p className="text-center text-gray-500">
           Looks like you haven't added anything to your cart yet.
         </p>
 
-        {/* Button */}
         <button
           type="button"
           className="rounded-lg bg-green-600 px-8 py-3 text-white transition hover:bg-green-800"
@@ -152,7 +147,6 @@ return (
 
       </nav>
 
-      {/* Page Title */}
       <div className="flex items-center gap-3">
 
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-600 text-white shadow-sm">

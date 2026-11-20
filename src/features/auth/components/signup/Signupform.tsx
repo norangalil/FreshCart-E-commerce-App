@@ -36,7 +36,6 @@ method : 'POST',
 data : requestbody
     }
    const {data} = await axios.request(options)
-   console.log(data)
    toast.success('Account Created Succesfully')
    setTimeout(() => {
     router.push('/login')
@@ -105,18 +104,6 @@ const onerror = (error: FieldErrors<signupFormvalues>)=>{
               {...register('password')}
             />
           {errors.password && (<p className="text-red-400"> {errors.password.message}</p>)}
-
-
-            {/* <div className="password-requirements">
-              <div className="flex items-center gap-2">
-                <div className="bar grow h-1 bg-gray-200 rounded-md overflow-hidden">
-                  <div className={`progress bg-orange-500 w-50 h-full`}></div>
-                </div>
-                <span>Fair</span>
-              </div>
-            </div> */}
-
-           
           </div>
 
           <div className="flex flex-col gap-2">
