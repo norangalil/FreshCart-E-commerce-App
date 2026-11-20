@@ -367,7 +367,8 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
 
 
 
-                 <li>
+                 <li 
+                 onClick={toggleMenu}>
                   <Link
                     className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
                     href={`/cart`}
@@ -384,7 +385,7 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
                     <span className="font-medium">Cart</span>
                   </Link>
                 </li>
-                <li>
+                <li onClick={toggleMenu}>
                   <Link
                     className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
                     href={`/wishlist`}
@@ -394,7 +395,9 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
                   </Link>
                 </li>
                
-                <li>
+                <li
+                 onClick={toggleMenu}
+                >
                   <Link
                     className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
                     href={`/profile/address`}
@@ -404,7 +407,8 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
                   </Link>
                 </li>
 
-   <li>
+   <li onClick={toggleMenu}>
+
                   <Link
                     className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
                     href={`/allorders`}
@@ -414,8 +418,9 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
                   </Link>
                 </li>
 
-                    <li onClick={logout}>
+                    <li onClick={toggleMenu}>
                     <button
+                    onClick={logout}
                       className="flex w-full items-center gap-3 p-2 rounded-lg hover:bg-gray-100 text-left"
                     >
                       <FontAwesomeIcon
@@ -431,7 +436,8 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
 
 </> : <ul className="space-y-3">
               
-                  <li>
+                  <li onClick={toggleMenu} >
+
                   <Link
                     className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
                     href={`/cart`}
@@ -449,7 +455,7 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
                   </Link>
                 </li>
                 
-                    <li>
+                    <li onClick={toggleMenu}>
                       <Link
                         href={`/signup`}
                         className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100`}
@@ -461,7 +467,7 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
                         <span className="font-medium">Signup</span>
                       </Link>
                     </li>
-                    <li>
+                    <li onClick={toggleMenu}>
                       <Link
                       
                         href={`/login`}
