@@ -44,10 +44,13 @@ const {logout} = useLogout()
 
 const router = useRouter()
 const [searchValue , setSearchvalue] = useState('')
+
 function handleSearch (e: React.SubmitEvent<HTMLFormElement>){
 e.preventDefault()
 if(!searchValue.trim()) return
 router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
+  toggleMenu()
+
 }
   return (
     <>
@@ -323,8 +326,6 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
             ></div>
 
             <div
-                  onClick={toggleMenu}
-
               className={` lg:hidden offcanvas p-5 fixed w-80 top-0 bottom-0 left-0 bg-white shadow-xl z-50 overflow-y-auto  flex-col`}
             >
               <div className="flex justify-between items-center border-b border-gray-200 pb-4">
@@ -339,9 +340,13 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
                   <FontAwesomeIcon icon={faXmark} className="text-xl" />
                 </button>
               </div>
-              <div className="relative my-4">
+              <form onSubmit={handleSearch}>
+
+                <div className="relative my-4">
                 <input
-                  type="text"
+                  type="search"
+                   value={searchValue}
+  onChange={(e) => setSearchvalue(e.target.value)}
                   className="form-control w-full border-2 py-2 pl-3 pr-10 rounded-lg"
                   placeholder="Search for products ..."
                 />
@@ -350,6 +355,8 @@ router.push(`/search?query=${encodeURIComponent(searchValue.trim())}`)
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
                 />
               </div>
+              </form>
+              
               <h2 className="text-lg font-semibold mt-4 mb-2 text-gray-800">
                 Main Menu
               </h2>
